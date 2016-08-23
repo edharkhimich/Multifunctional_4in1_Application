@@ -43,27 +43,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/telephoneEdTxt"
         android:layout_marginTop="20dp"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginRight="20dp"
         android:text="@string/read"
         />
-    <TextView
-        android:id="@+id/contactsTxtView"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/telephoneEdTxt"
         android:layout_marginTop="20dp"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:layout_below="@+id/createBtn"/>
-
-    <Button
-        android:id="@+id/clearBtn"
-        android:layout_width="65dp"
-        android:layout_height="45dp"
-        android:textSize="12sp"
+        android:layout_marginRight="20dp"
         android:text="@string/clear"
-        android:layout_below="@+id/contactsTxtView"
-        android:layout_marginTop="60dp"
-        android:layout_centerHorizontal="true"/>
+        />
+    <ListView
+        android:id="@+id/contactListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/readBtn">
+    </ListView>
 
 </RelativeLayout>

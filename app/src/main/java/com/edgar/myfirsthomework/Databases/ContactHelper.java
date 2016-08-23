@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 public class ContactHelper extends SQLiteOpenHelper {
+    SQLiteDatabase db;
     EditText nameEdTxt, surnameEdTxt, telephoneEdTxt;
     public static final String LOG = "myLogs";
 
@@ -56,6 +57,9 @@ public class ContactHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE);
         //Создаем новую таблицу
         onCreate(sqLiteDatabase);
+    }
+    public void delRec(long id) {
+        db.delete(DATABASE_TABLE, ID + " = " + id, null);
     }
 
 }

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.edgar.myfirsthomework.Fragments.FourFragment;
 import com.edgar.myfirsthomework.Fragments.OneFragment;
@@ -25,7 +26,7 @@ import info.androidhive.materialtabs.R;
 
 
 public class MainActivity extends AppCompatActivity {
-    private android.app.FragmentManager fragmentManager;
+//    private android.app.FragmentManager fragmentManager;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -56,14 +56,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
 
-        String letterFromService = getIntent().getStringExtra(RingtonePlayService.KEY);
-        if(letterFromService != null) {
-            switch (letterFromService) {
-                case ("extra"):
-                    Log.d(LOG, "Прошла проверку");
-                    viewPager.setCurrentItem(1);
+        if(getIntent()!=null){
+            String letterFromService = getIntent().getStringExtra(RingtonePlayService.KEY);
+            if(letterFromService != null) {
+                switch (letterFromService) {
+                    case ("extra"):
+                        Log.d(LOG, "Прошла проверку");
+                        viewPager.setCurrentItem(1);
+                }
             }
         }
+
     }
 
     private void setupTabIcons() {

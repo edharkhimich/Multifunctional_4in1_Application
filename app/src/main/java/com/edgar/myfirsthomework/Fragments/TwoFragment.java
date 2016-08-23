@@ -76,6 +76,7 @@ public class TwoFragment extends Fragment {
 
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
                 calendar.set(Calendar.MINUTE, min);
+                calendar.set(Calendar.SECOND, 0);
 
                 if (min < 10) str_min = "0" + String.valueOf(min);
                 else str_min = String.valueOf(min);
