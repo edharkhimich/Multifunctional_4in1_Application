@@ -9,8 +9,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 public class ContactHelper extends SQLiteOpenHelper {
-    SQLiteDatabase db;
-    EditText nameEdTxt, surnameEdTxt, telephoneEdTxt;
+
     public static final String LOG = "myLogs";
 
     private static final int VERSION = 1;
@@ -36,16 +35,10 @@ public class ContactHelper extends SQLiteOpenHelper {
     public ContactHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
-//
-//    public ContactHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,int version) {
-//        super(context, name, factory, version);
-//    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.d(LOG, "Выполняется метод onCreate() из нашей БД");
-
-        //Создаем пустую таблицу с помощью класса SQLiteDatabase
         sqLiteDatabase.execSQL(DATABASE_CREATE_SCRIPT);
     }
 
@@ -53,14 +46,9 @@ public class ContactHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         Log.d(LOG, "Обновяется с версии: " + i + ", на новую версию: " + i1);
 
-        //Удаляем старую таблицу и создаем новую
         sqLiteDatabase.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE);
-        //Создаем новую таблицу
+
         onCreate(sqLiteDatabase);
     }
-    public void delRec(long id) {
-        db.delete(DATABASE_TABLE, ID + " = " + id, null);
-    }
-
 }
 

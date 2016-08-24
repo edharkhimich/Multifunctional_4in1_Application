@@ -21,31 +21,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.edgar.myfirsthomework.Adapters.MyCursorAdapter;
 import com.edgar.myfirsthomework.Databases.ContactHelper;
 
 import info.androidhive.materialtabs.R;
 
 public class FourFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int CM_DELETE_ID = 1;
+//    private static final int CM_DELETE_ID = 1;
 
     private static final String LOG = "myLogs";
     private static final String DATABASE_TABLE = "user_contacts";
 
     ContactHelper contactHelper;
-    SimpleCursorAdapter simpleCursorAdapter;
     private Button buttonCreate, readBtn, clearBtn;
     SQLiteDatabase sqLiteDatabase;
     EditText nameEdTxt, surnameEdTxt, telephoneEdTxt;
     ListView contactsListView;
+    MyCursorAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contactHelper = new ContactHelper(getActivity());
         sqLiteDatabase = contactHelper.getWritableDatabase();
-        if (savedInstanceState != null) {
-            return;
-        }
+
     }
 
     @Override
@@ -61,15 +60,8 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         telephoneEdTxt = (EditText) v.findViewById(R.id.telephoneEdTxt);
         contactsListView = (ListView) v.findViewById(R.id.contactListView);
 
-        String[] from = {ContactHelper.NAME_COLUMN, ContactHelper.SURNAME_COLUMN, ContactHelper.TELEPHONE_COLUMN};
-        int[] to = {R.id.idInList, R.id.nameInList, R.id.surnameInList, R.id.telephoneInList};
-
-        simpleCursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(), R.layout.list_details,
-                null, from, to, 0);
-
-        contactsListView.setAdapter(simpleCursorAdapter);
-
-        registerForContextMenu(contactsListView);
+        adapter = new MyCursorAdapter(getActivity());
+        contactsListView.setAdapter(adapter);
 
         getLoaderManager().initLoader(0, null, this);
 
@@ -93,7 +85,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
                 values.put(ContactHelper.SURNAME_COLUMN, surname);
                 values.put(ContactHelper.TELEPHONE_COLUMN, telephone);
                 sqLiteDatabase.insert(DATABASE_TABLE, null, values);
-                getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
+
                 nameEdTxt.setText("");
                 surnameEdTxt.setText("");
                 telephoneEdTxt.setText("");
@@ -120,25 +112,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         return v;
     }
 
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
-    }
 
-    public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == CM_DELETE_ID) {
-            // получаем из пункта контекстного меню данные по пункту списка
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item
-                    .getMenuInfo();
-            // извлекаем id записи и удаляем соответствующую запись в БД
-            contactHelper.delRec(acmi.id);
-            // получаем новый курсор с данными
-            getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
-            return true;
-        }
-        return super.onContextItemSelected(item);
-    }
 
 
     @Override
@@ -156,11 +130,12 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        simpleCursorAdapter.swapCursor(data);
+        adapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
 
@@ -175,24 +150,8 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
         @Override
         public Cursor loadInBackground() {
-            Cursor cursor = db.query(DATABASE_TABLE,
+            return db.query(DATABASE_TABLE,
                     null, null, null, null, null, null);
-            String name;
-            String surname;
-            String telephone;
-
-            if (cursor.moveToFirst()) {
-                do {
-                    int id2 = cursor.getInt(cursor.getColumnIndex(ContactHelper.ID));
-                    name = cursor.getString(cursor.getColumnIndex(ContactHelper.NAME_COLUMN));
-                    surname = cursor.getString(cursor.getColumnIndex(ContactHelper.SURNAME_COLUMN));
-                    telephone = cursor.getString(cursor.getColumnIndex(ContactHelper.TELEPHONE_COLUMN));
-                    Log.d(LOG, "ID = " + id2 + ", name = " + name + ", surname = " + surname +
-                            ", telephone " + telephone);
-                } while (cursor.moveToNext());
-            } else
-                Log.d(LOG, "There are 0 rows in the DB");
-            return cursor;
         }
     }
 }
