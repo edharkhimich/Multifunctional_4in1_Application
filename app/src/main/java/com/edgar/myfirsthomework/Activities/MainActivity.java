@@ -19,7 +19,6 @@ import info.androidhive.materialtabs.R;
 
 
 public class MainActivity extends AppCompatActivity {
-//    private android.app.FragmentManager fragmentManager;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -48,19 +47,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+        String letterFromService = getIntent().getStringExtra(RingtonePlayService.KEY);
 
-        if(getIntent()!=null){
-            String letterFromService = getIntent().getStringExtra(RingtonePlayService.KEY);
-            if(letterFromService != null) {
-                switch (letterFromService) {
-                    case ("extra"):
-                        Log.d(LOG, "Прошла проверку");
-                        viewPager.setCurrentItem(1);
-                }
+
+        if(letterFromService!=null){
+            Log.d(LOG, "letterFromService != null = " + letterFromService);
+            viewPager.setCurrentItem(1);
+//            switch (letterFromService) {
+//                    case ("extra"):
+//                        Log.d(LOG, "letterFromService == extra");
+//                        viewPager.setCurrentItem(1);
+//                        Log.d(LOG, "Прошла проверку");
+//                }
             }
         }
 
-    }
+
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);

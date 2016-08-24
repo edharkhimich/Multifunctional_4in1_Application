@@ -24,8 +24,6 @@ import java.util.Calendar;
 
 public class TwoFragment extends Fragment {
 
-    final String LOG_TAG = "myLogs";
-    private int mNumberPickerInputId = 0;
     public static final String EXTRA = "extra";
 
     AlarmManager alarmManager;

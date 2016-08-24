@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <AnalogClock
+        android:id="@+id/analog_clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="35dp"/>
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:layout_alignTop="@+id/analog_clock"
+            android:layout_toEndOf="@+id/analog_clock" />
+
+    </RelativeLayout>

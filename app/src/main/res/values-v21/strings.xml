@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="flashlight_off">FlashLight Off</string>
+    <string name="notification_title">Notification Title</string>
 </resources>

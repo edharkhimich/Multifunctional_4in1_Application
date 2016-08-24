@@ -72,17 +72,19 @@ public class RingtonePlayService extends Service {
 
             NotificationManager not_manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             Intent intent_for_two_fragment = new Intent(context, MainActivity.class);
-            intent_for_two_fragment.putExtra(KEY, "extra");
+            Log.d(LOG, "BEFORE PUTEXTRA");
+            intent_for_two_fragment.putExtra(KEY, "extra").putExtra("bool", true);
+            Log.d(LOG, "PUTEXTRA DONE");
             PendingIntent pendingIntentToTwoFragment = PendingIntent.getActivity(context, 0, intent_for_two_fragment, 0);
 
             Notification notification_popUp = new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.ic_nnn)
                     .setContentTitle("An alarm is going off")
                     .setContentText("Click me")
                     .setContentIntent(pendingIntentToTwoFragment)
                     .setSmallIcon(R.drawable.ic_alarm)
                     .setAutoCancel(true)
                     .build();
-
             not_manager.notify(0, notification_popUp);
 
         }
