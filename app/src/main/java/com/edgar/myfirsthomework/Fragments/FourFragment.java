@@ -2,6 +2,7 @@ package com.edgar.myfirsthomework.Fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.edgar.myfirsthomework.Activities.MainActivity;
 import com.edgar.myfirsthomework.Adapters.MyCursorAdapter;
 import com.edgar.myfirsthomework.Databases.ContactHelper;
+
+import java.io.File;
 
 import info.androidhive.materialtabs.R;
 
@@ -33,11 +38,13 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
     EditText nameEdTxt, surnameEdTxt, telephoneEdTxt;
     ListView contactsListView;
     MyCursorAdapter adapter;
+    Cursor cursor;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contactHelper = new ContactHelper(getActivity());
         sqLiteDatabase = contactHelper.getWritableDatabase();
+
 
     }
 
@@ -45,10 +52,9 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_four, container, false);
-
         buttonCreate = (Button) v.findViewById(R.id.createBtn);
         readBtn = (Button) v.findViewById(R.id.readBtn);
-//        clearBtn = (Button) v.findViewById(R.id.clearBtn);
+        clearBtn = (Button) v.findViewById(R.id.clearBtn);
         nameEdTxt = (EditText) v.findViewById(R.id.nameEdTxt);
         surnameEdTxt = (EditText) v.findViewById(R.id.surNameEdTxt);
         telephoneEdTxt = (EditText) v.findViewById(R.id.telephoneEdTxt);
@@ -57,7 +63,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         adapter = new MyCursorAdapter(getActivity());
         contactsListView.setAdapter(adapter);
 
-        getLoaderManager().initLoader(0, null, this);
+//        getLoaderManager().initLoader(0, null, this);
 
 
         //Создаем обьект contactHelper для создания и управления версиями БД
@@ -84,29 +90,39 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
                 surnameEdTxt.setText("");
                 telephoneEdTxt.setText("");
                 Log.d(LOG, "We put in database: name --> " + name + ", surnmae --> " + surname + ", telephone --> " + telephone);
-                // sqLiteDatabase.close();
+
             }
         });
         readBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(LOG, "Read complited");
                 getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
             }
-        });
 
-//        clearBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(LOG, "Clear my DB");
-//                int clearCount = sqLiteDatabase.delete(DATABASE_TABLE, null, null);
-//                Log.d(LOG, "Deleted rows count = " + clearCount);
-//                // sqLiteDatabase.close();
+//                cursor = sqLiteDatabase.query(DATABASE_TABLE, null, null, null, null, null, null);
+//                if (cursor.moveToFirst()) {
+//                    if (cursor.moveToNext()) {
+//                        adapter.bindView(adapter.newView(getActivity(), cursor, null), getActivity(), cursor);
+//                    } else
+//                        getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+//                }
 //            }
-//        });
+        });
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(LOG, "Clear my DB");
+                int clearCount = sqLiteDatabase.delete(DATABASE_TABLE, null, null);
+                getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+                Log.d(LOG, "Clear = " + clearCount);
+            }
+        });
         return v;
     }
 
 
+    // sqLiteDatabase.close();
 
 
     @Override
