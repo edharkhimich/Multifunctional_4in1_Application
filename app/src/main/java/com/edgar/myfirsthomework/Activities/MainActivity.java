@@ -53,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
         if(letterFromService!=null){
             Log.d(LOG, "letterFromService != null = " + letterFromService);
             viewPager.setCurrentItem(1);
-//            switch (letterFromService) {
-//                    case ("extra"):
-//                        Log.d(LOG, "letterFromService == extra");
-//                        viewPager.setCurrentItem(1);
-//                        Log.d(LOG, "Прошла проверку");
-//                }
             }
         }
 

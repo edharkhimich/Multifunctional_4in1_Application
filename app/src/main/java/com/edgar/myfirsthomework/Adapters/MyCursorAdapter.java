@@ -35,7 +35,7 @@ public class MyCursorAdapter extends CursorAdapter {
 
         nameInList.setText(cursor.getString(cursor.getColumnIndex(ContactHelper.NAME_COLUMN)));
         surnameInList.setText(cursor.getString(cursor.getColumnIndex(ContactHelper.SURNAME_COLUMN)));
-        idInList.setText(cursor.getString(cursor.getColumnIndex(ContactHelper.ID)));
+        idInList.setText((cursor.getPosition() + 1) + "");
         telephoneInList.setText(cursor.getString(cursor.getColumnIndex(ContactHelper.TELEPHONE_COLUMN)));
     }
 }

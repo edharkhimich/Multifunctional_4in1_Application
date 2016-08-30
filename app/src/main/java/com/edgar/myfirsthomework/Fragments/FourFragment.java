@@ -2,7 +2,8 @@ package com.edgar.myfirsthomework.Fragments;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,19 +18,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.edgar.myfirsthomework.Activities.ListActivity;
 import com.edgar.myfirsthomework.Activities.MainActivity;
 import com.edgar.myfirsthomework.Adapters.MyCursorAdapter;
 import com.edgar.myfirsthomework.Databases.ContactHelper;
 
-import java.io.File;
 
 import info.androidhive.materialtabs.R;
 
 public class FourFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String LOG = "myLogs";
-    private static final String DATABASE_TABLE = "user_contacts";
+    public static final String DATABASE_TABLE = "user_contacts";
 
     ContactHelper contactHelper;
     private Button buttonCreate, readBtn, clearBtn;
@@ -44,8 +45,6 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         super.onCreate(savedInstanceState);
         contactHelper = new ContactHelper(getActivity());
         sqLiteDatabase = contactHelper.getWritableDatabase();
-
-
     }
 
     @Override
@@ -63,67 +62,54 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         adapter = new MyCursorAdapter(getActivity());
         contactsListView.setAdapter(adapter);
 
-//        getLoaderManager().initLoader(0, null, this);
-
-
-        //Создаем обьект contactHelper для создания и управления версиями БД
-
 
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(LOG, "Database created");
-
                 final String name = nameEdTxt.getText().toString();
                 final String surname = surnameEdTxt.getText().toString();
                 final String telephone = telephoneEdTxt.getText().toString();
 
-                ContentValues values = new ContentValues();
+                if (sqLiteDatabase != null) {
+                    Log.d(LOG, "IF");
 
-                //Задайем значение для каждого столбца
-                values.put(ContactHelper.NAME_COLUMN, name);
-                values.put(ContactHelper.SURNAME_COLUMN, surname);
-                values.put(ContactHelper.TELEPHONE_COLUMN, telephone);
-                sqLiteDatabase.insert(DATABASE_TABLE, null, values);
+                    ContentValues values = new ContentValues();
 
-                nameEdTxt.setText("");
-                surnameEdTxt.setText("");
-                telephoneEdTxt.setText("");
+                    values.put(ContactHelper.NAME_COLUMN, name);
+                    values.put(ContactHelper.SURNAME_COLUMN, surname);
+                    values.put(ContactHelper.TELEPHONE_COLUMN, telephone);
+                    sqLiteDatabase.insert(DATABASE_TABLE, null, values);
+
+                    nameEdTxt.setText("");
+                    surnameEdTxt.setText("");
+                    telephoneEdTxt.setText("");
+                    Toast.makeText(getActivity(), "Contact created", Toast.LENGTH_SHORT).show();
+                }
                 Log.d(LOG, "We put in database: name --> " + name + ", surnmae --> " + surname + ", telephone --> " + telephone);
-
             }
         });
         readBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(LOG, "Read complited");
-                getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    Intent intent = new Intent(getActivity(), ListActivity.class);
+                    startActivity(intent);
+                }else getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+//                adapter.notifyDataSetChanged();
             }
-
-//                cursor = sqLiteDatabase.query(DATABASE_TABLE, null, null, null, null, null, null);
-//                if (cursor.moveToFirst()) {
-//                    if (cursor.moveToNext()) {
-//                        adapter.bindView(adapter.newView(getActivity(), cursor, null), getActivity(), cursor);
-//                    } else
-//                        getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
-//                }
-//            }
         });
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(LOG, "Clear my DB");
                 int clearCount = sqLiteDatabase.delete(DATABASE_TABLE, null, null);
-                getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+                getActivity().getSupportLoaderManager().restartLoader(0, null,FourFragment.this);
+                adapter.notifyDataSetChanged();
                 Log.d(LOG, "Clear = " + clearCount);
             }
         });
         return v;
     }
-
-
-    // sqLiteDatabase.close();
-
 
     @Override
     public void onDestroy() {
@@ -135,16 +121,22 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(LOG, "onCreateLoader");
         return new MyCursorLoader(getActivity(), sqLiteDatabase);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter.swapCursor(data);
+        Log.d(LOG, "onLoadFinished");
+        cursor = sqLiteDatabase.query(DATABASE_TABLE,
+                null, null, null, null, null, null);
+
+        adapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(LOG, "onLoaderReset");
         adapter.swapCursor(null);
     }
 
@@ -160,8 +152,14 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
         @Override
         public Cursor loadInBackground() {
+            Log.d(LOG, "loadInBackground");
             return db.query(DATABASE_TABLE,
                     null, null, null, null, null, null);
         }
     }
 }
+
+
+
+
+
