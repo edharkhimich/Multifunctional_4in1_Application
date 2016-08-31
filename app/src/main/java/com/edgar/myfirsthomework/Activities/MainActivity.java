@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.edgar.myfirsthomework.Adapters.ViewPagerAdapter;
 import com.edgar.myfirsthomework.Fragments.FourFragment;
 import com.edgar.myfirsthomework.Fragments.OneFragment;
@@ -16,6 +17,7 @@ import com.edgar.myfirsthomework.Fragments.ThreeFragment;
 import com.edgar.myfirsthomework.Services.RingtonePlayService;
 
 import info.androidhive.materialtabs.R;
+import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG, "onCreate Main");
 
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
