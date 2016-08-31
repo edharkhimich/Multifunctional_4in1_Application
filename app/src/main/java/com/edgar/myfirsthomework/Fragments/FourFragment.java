@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.edgar.myfirsthomework.Activities.ListActivity;
-import com.edgar.myfirsthomework.Activities.MainActivity;
 import com.edgar.myfirsthomework.Adapters.MyCursorAdapter;
 import com.edgar.myfirsthomework.Databases.ContactHelper;
 

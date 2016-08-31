@@ -2,8 +2,6 @@ package com.edgar.myfirsthomework.Activities;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.edgar.myfirsthomework.Adapters.MyCursorAdapter;
@@ -23,7 +20,6 @@ import info.androidhive.materialtabs.R;
 
 public class ListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
 
-    String key = "value";
 
     ListView listViewFFF;
     SQLiteDatabase sqLiteDatabase;

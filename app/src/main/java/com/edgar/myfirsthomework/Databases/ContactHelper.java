@@ -1,12 +1,10 @@
 package com.edgar.myfirsthomework.Databases;
 
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.EditText;
 
 public class ContactHelper extends SQLiteOpenHelper {
 
