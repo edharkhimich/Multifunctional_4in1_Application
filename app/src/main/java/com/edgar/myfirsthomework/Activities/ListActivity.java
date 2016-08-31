@@ -2,6 +2,8 @@ package com.edgar.myfirsthomework.Activities;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,7 +22,9 @@ import info.androidhive.materialtabs.R;
 
 
 public class ListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
-    private static final String LOG = "myLogs";
+
+    String key = "value";
+
     ListView listViewFFF;
     SQLiteDatabase sqLiteDatabase;
     MyCursorAdapter adapter;
@@ -29,8 +33,15 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.fragment_five);
 
         listViewFFF = (ListView) findViewById(R.id.list_view_five);
@@ -69,7 +80,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public Cursor loadInBackground() {
-            Log.d(LOG, "loadInBackground");
             return db.query(FourFragment.DATABASE_TABLE,
                     null, null, null, null, null, null);
         }

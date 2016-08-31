@@ -50,6 +50,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(LOG, "onCreateView Four Fragment");
         View v = inflater.inflate(R.layout.fragment_four, container, false);
         buttonCreate = (Button) v.findViewById(R.id.createBtn);
         readBtn = (Button) v.findViewById(R.id.readBtn);

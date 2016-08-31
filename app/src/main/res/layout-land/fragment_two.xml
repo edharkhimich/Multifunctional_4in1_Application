@@ -9,9 +9,11 @@
 
     <TimePicker
         android:id="@+id/timePicker"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp">
+
+        >
     </TimePicker>
 
 
@@ -21,9 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick1"
-        android:layout_marginRight="350dp"
+        android:layout_marginRight="370dp"
         android:text="@string/turn_on"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="46dp"
         android:layout_alignStart="@+id/end_alarm">
     </Button>
@@ -31,7 +33,6 @@
         android:id="@+id/end_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
         android:onClick="onClick2"
         android:text="@string/turn_off"
         android:layout_below="@+id/start_alarm"
