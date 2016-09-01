@@ -41,8 +41,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile files('libs/espresso-1.1-bundled.jar')
     androidTestCompile 'com.squareup:fest-android:1.0.7+'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:design:24.2.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }

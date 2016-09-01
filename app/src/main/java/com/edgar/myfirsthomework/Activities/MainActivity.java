@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(LOG, "onCreate Main");
-
         super.onCreate(savedInstanceState);
+
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
         String letterFromService = getIntent().getStringExtra(RingtonePlayService.KEY);
 
 
-        if (letterFromService!=null){
+        if (letterFromService!=null) {
             Log.d(LOG, "letterFromService != null = " + letterFromService);
             viewPager.setCurrentItem(1);
-            }
         }
+    }
 
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
