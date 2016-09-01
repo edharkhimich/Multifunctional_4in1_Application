@@ -32,6 +32,7 @@ public class ThreeFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkPermission();
     }
 
     @Override
@@ -48,15 +49,7 @@ public class ThreeFragment extends Fragment {
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        workFlashlight();
-                    } else {
-                        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-                            Toast.makeText(getActivity(), "Camera permission is needed to use you camera flashlight", Toast.LENGTH_LONG).show();
-                        }
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CODE);
-                    }
+                    workFlashlight();
                 }
             });
         } else {
@@ -116,6 +109,26 @@ public class ThreeFragment extends Fragment {
                 isOn = false;
             }
 
+        }
+    }
+
+    private void checkPermission() {
+//            int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+//                    Manifest.permission.READ_CONTACTS);
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.CAMERA)) {
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_CONTACTS},
+                        MY_PERMISSIONS_REQUEST_CODE);
+
+            }
         }
     }
 }
