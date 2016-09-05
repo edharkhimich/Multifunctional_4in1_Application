@@ -31,7 +31,6 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     private static final int PERMS_REQUEST_CODE = 123;
     private Toolbar toolbar;
     private TabLayout tabLayout;
