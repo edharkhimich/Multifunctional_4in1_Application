@@ -32,7 +32,6 @@ public class ThreeFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkPermission();
     }
 
     @Override
@@ -45,26 +44,42 @@ public class ThreeFragment extends Fragment {
             camera = Camera.open();
             cameParameters = camera.getParameters();
             isFlash = true;
-
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    workFlashlight();
-                }
-            });
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Error")
-                    .setMessage("Flash is not avaible on this device...")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
         }
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (isFlash) {
+                    if (!isOn) {
+                        imageButton.setImageResource(R.drawable.btn_switch_on);
+                        cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        camera.setParameters(cameParameters);
+                        camera.startPreview();
+                        textFlashOn.setText("FlashLight On");
+                        isOn = true;
+                    } else {
+                        imageButton.setImageResource(R.drawable.btn_switch_off);
+                        cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        camera.setParameters(cameParameters);
+                        camera.startPreview();
+                        textFlashOn.setText("FlashLight Off");
+                        isOn = false;
+                    }
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Error")
+                            .setMessage("Flash is not avaible on this device...")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+        });
         return v;
     }
 
@@ -81,7 +96,6 @@ public class ThreeFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == MY_PERMISSIONS_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                workFlashlight();
             } else {
                 Toast.makeText(getActivity(), "Permission has not been granted", Toast.LENGTH_LONG).show();
             }
@@ -90,46 +104,7 @@ public class ThreeFragment extends Fragment {
         }
     }
 
-    private void workFlashlight() {
 
-        if (isFlash) {
-            if (!isOn) {
-                imageButton.setImageResource(R.drawable.btn_switch_on);
-                cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                camera.setParameters(cameParameters);
-                camera.startPreview();
-                textFlashOn.setText("FlashLight On");
-                isOn = true;
-            } else {
-                imageButton.setImageResource(R.drawable.btn_switch_off);
-                cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                camera.setParameters(cameParameters);
-                camera.startPreview();
-                textFlashOn.setText("FlashLight Off");
-                isOn = false;
-            }
 
-        }
-    }
-
-    private void checkPermission() {
-//            int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
-//                    Manifest.permission.READ_CONTACTS);
-
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.CAMERA)) {
-
-            } else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        MY_PERMISSIONS_REQUEST_CODE);
-
-            }
-        }
-    }
 }
 

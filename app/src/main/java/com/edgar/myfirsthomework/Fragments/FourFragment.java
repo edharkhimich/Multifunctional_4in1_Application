@@ -42,8 +42,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contactHelper = new ContactHelper(getActivity());
-        sqLiteDatabase = contactHelper.getWritableDatabase();
+
     }
 
     @Override
@@ -61,6 +60,8 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
 
         adapter = new MyCursorAdapter(getActivity());
         contactsListView.setAdapter(adapter);
+        contactHelper = new ContactHelper(getActivity());
+        sqLiteDatabase = contactHelper.getWritableDatabase();
 
 
         buttonCreate.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +85,7 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
                     surnameEdTxt.setText("");
                     telephoneEdTxt.setText("");
                     Toast.makeText(getActivity(), "Contact created", Toast.LENGTH_SHORT).show();
+
                 }
                 Log.d(LOG, "We put in database: name --> " + name + ", surnmae --> " + surname + ", telephone --> " + telephone);
             }
@@ -91,10 +93,11 @@ public class FourFragment extends Fragment implements LoaderManager.LoaderCallba
         readBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+//                if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                     Intent intent = new Intent(getActivity(), ListActivity.class);
                     startActivity(intent);
-                }else getActivity().getSupportLoaderManager().initLoader(0, null, FourFragment.this);
+//                }else
+//                getActivity().getSupportLoaderManager().restartLoader(0, null, FourFragment.this);
 //                adapter.notifyDataSetChanged();
             }
         });

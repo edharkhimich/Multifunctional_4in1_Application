@@ -13,6 +13,7 @@
             android:id="@+id/idInList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:layout_marginLeft="7dp"
             android:textStyle="italic" />
@@ -21,6 +22,7 @@
             android:id="@+id/nameInList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:textStyle="italic" />
@@ -29,6 +31,7 @@
             android:id="@+id/surnameInList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:textStyle="italic" />
@@ -37,6 +40,7 @@
             android:id="@+id/telephoneInList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_gravity="center"
             android:layout_marginLeft="90dp"
             android:textStyle="bold" />
