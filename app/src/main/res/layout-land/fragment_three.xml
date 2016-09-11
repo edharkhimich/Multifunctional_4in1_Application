@@ -17,14 +17,12 @@
         />
     
 
-    <ImageButton
-        android:id="@+id/image_buttonOff"
+    <ToggleButton
+        android:id="@+id/flashlightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/btn_switch_off"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:background="@color/windowBackground"
         />
 
 </RelativeLayout>

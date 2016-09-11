@@ -16,7 +16,7 @@
     <string name="button2">Button2</string>
     <string name="turn_off">Turn Off</string>
     <string name="turn_on">Turn On</string>
-    <string name="flashlight_off">FlashLight Off</string>
+    <string name="flashlight_off">Flashlight OFF</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="telephone">Telephone</string>
@@ -25,4 +25,5 @@
     <string name="clear">Clear</string>
     <string name="delete_record">Удалить</string>
     <string name="notification_title">Push here to switch off</string>
+    <string name="toggle_button">Toggle Button</string>
 </resources>

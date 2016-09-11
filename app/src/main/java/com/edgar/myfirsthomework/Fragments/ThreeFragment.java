@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,67 +17,42 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import info.androidhive.materialtabs.R;
 
 
 public class ThreeFragment extends Fragment {
-    private static final String LOG = "myLogs";
-    private static final int MY_PERMISSIONS_REQUEST_CODE = 1;
-    ImageButton imageButton;
-    Camera camera = null;
-    Camera.Parameters cameParameters;
-    boolean isFlash;
-    boolean isOn;
-    TextView textFlashOn;
+    private Camera camera = null;
+    private Camera.Parameters cameraParameters;
+    private TextView textFlashOn;
+    public String flash_on = "Flashlight ON";
+    public String flash_off = "Flashlight OFF";
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private String previousFlashMode = null;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_three, container, false);
-        imageButton = (ImageButton) v.findViewById(R.id.image_buttonOff);
         textFlashOn = (TextView) v.findViewById(R.id.textFlashOn);
-        if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            camera = Camera.open();
-            cameParameters = camera.getParameters();
-            isFlash = true;
-        }
-        imageButton.setOnClickListener(new View.OnClickListener() {
+
+        open();
+
+        ToggleButton the_button = (ToggleButton) v.findViewById(R.id.flashlightButton);
+
+
+        the_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (isFlash) {
-                    if (!isOn) {
-                        imageButton.setImageResource(R.drawable.btn_switch_on);
-                        cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        camera.setParameters(cameParameters);
-                        camera.startPreview();
-                        textFlashOn.setText("FlashLight On");
-                        isOn = true;
-                    } else {
-                        imageButton.setImageResource(R.drawable.btn_switch_off);
-                        cameParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                        camera.setParameters(cameParameters);
-                        camera.startPreview();
-                        textFlashOn.setText("FlashLight Off");
-                        isOn = false;
-                    }
+                if (((ToggleButton) view).isChecked()) {
+                    on();
+                    view.setKeepScreenOn(true);
+                    textFlashOn.setText(flash_on);
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Error")
-                            .setMessage("Flash is not avaible on this device...")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                    off();
+                    view.setKeepScreenOn(false);
+                    textFlashOn.setText(flash_off);
                 }
             }
         });
@@ -84,27 +60,48 @@ public class ThreeFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
+        close();
+    }
+
+
+    public synchronized void open() {
+        camera = Camera.open();
         if (camera != null) {
+            cameraParameters = camera.getParameters();
+            previousFlashMode = cameraParameters.getFlashMode();
+        }
+        if (previousFlashMode == null) {
+            // could be null if no flash, i.e. emulator
+            previousFlashMode = Camera.Parameters.FLASH_MODE_OFF;
+        }
+    }
+
+    public synchronized void close() {
+        if (camera != null) {
+            cameraParameters.setFlashMode(previousFlashMode);
+            camera.setParameters(cameraParameters);
             camera.release();
             camera = null;
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
-                Toast.makeText(getActivity(), "Permission has not been granted", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public synchronized void on() {
+        if (camera != null) {
+            cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            camera.setParameters(cameraParameters);
+            camera.startPreview();
         }
     }
 
-
+    public synchronized void off() {
+        if (camera != null) {
+            camera.stopPreview();
+            cameraParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            camera.setParameters(cameraParameters);
+        }
+    }
 
 }
 
