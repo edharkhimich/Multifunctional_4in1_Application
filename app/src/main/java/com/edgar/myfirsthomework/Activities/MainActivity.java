@@ -118,9 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean hasPermissions(){
         int res = 0;
         //string array of permissions,
-        String[] permissions = new String[]{Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
 
         for (String perms : permissions){
             res = checkCallingOrSelfPermission(perms);
@@ -151,18 +149,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (allowed) {
             //user granted all permissions we can perform our task.
-//            setupTabIcons();
         } else {
             // we will give warning to user that they haven't granted permissions.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     Toast.makeText(this, "Camera Permissions denied.", Toast.LENGTH_SHORT).show();
-                }
-                else if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                    Toast.makeText(this, "Write External Storage Permission denied", Toast.LENGTH_SHORT).show();
-                }
-                else if(shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)){
-                    Toast.makeText(this, "Read External Storage Permission denied", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -172,9 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestPerms(){
         Log.d(REQUEST_LOG, "requestPerms()");
-        String[] permissions = new String[]{Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] permissions = new String[]{Manifest.permission.CAMERA};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             requestPermissions(permissions,PERMS_REQUEST_CODE);
         }

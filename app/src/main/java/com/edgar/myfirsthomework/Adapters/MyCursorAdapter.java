@@ -18,7 +18,7 @@ public class MyCursorAdapter extends CursorAdapter {
 
     public MyCursorAdapter(Context context) {
         super(context, null, true);
-        cursorInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
